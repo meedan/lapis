@@ -1,0 +1,26 @@
+#!/bin/bash
+
+function update_build {
+  root=$(git rev-parse --show-toplevel)
+  cd $root
+  rev=$(git log -1 --format=format:%h)
+  file='config/initializers/build.rb'
+  echo "BUILD = '$rev'" > $file
+  git add $file
+  cd - >/dev/null
+}
+
+if [ $protected_branch = $current_branch ]  
+then  
+  read -p "You're about to commit to master, is that what you intended? [y|n] " -n 1 -r < /dev/tty
+  echo
+  if echo $REPLY | grep -E '^[Yy]$' > /dev/null
+  then
+    update_build
+    exit 0
+  fi
+  exit 1
+else  
+  update_build
+  exit 0
+fi 

@@ -1,0 +1,6 @@
+slack_webhook:
+slack_channel:
+code_climate_token:
+errbit_host:
+errbit_port:
+errbit_token:
