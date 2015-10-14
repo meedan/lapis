@@ -118,6 +118,10 @@ generate_files 'lib/meedan_webhook.rb'
 rake 'db:migrate'
 rake 'db:migrate', env: 'test'
 
+# Public
+
+generate_files 'public/index.html'
+
 after_bundle do
   git add: '.'
   git commit: %Q{ -m 'Initial commit' }
