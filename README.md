@@ -14,7 +14,7 @@ You can also use this README as a model for your README.
 * Integrations: Code Climate (code quality and coverage) and Errbit (exception handling)
 * API: Versioning and output control
 
-#### How to use this template
+### How to use this template
 
 * Define settings in `config.yml`
 * Generate your application `rails new <application name> -m <path to this file>`
@@ -23,3 +23,7 @@ You can also use this README as a model for your README.
 * By default, all controller actions require a valid token... you can `skip_before_filter :authenticate_from_token!` in order to avoid that
 * Document your API on files at `app/controllers/concerns/<controller name>_doc.rb`
 * Generate the documentation: `cd doc && make`
+
+### Example
+
+Check [this example of an API built on top of this framework](https://github.com/meedan/api-base-example/).
