@@ -79,6 +79,14 @@ file 'config/initializers/errbit.rb', File.read(f.path)
 file 'config/initializers/secret_token.rb', File.read(File.join(File.expand_path(File.dirname(__FILE__)), 'src/config/initializers/secret_token.rb.example')), force: true
 file 'config/config.yml', File.read(File.join(File.expand_path(File.dirname(__FILE__)), 'src/config/config.yml.example')), force: true
 
+environment 'config.generators do |g|
+               g.javascripts false
+               g.stylesheets false
+               g.template_engine false
+               g.helper false
+               g.assets false
+             end'
+
 # Routes
 
 generate_files 'config/routes.rb', 'lib/api_constraints.rb'
@@ -121,4 +129,5 @@ after_bundle do
   rake 'test:coverage'
   git add: 'public/coverage'
   git commit: %Q{ -m 'Code coverage' }
+  run 'spring stop'
 end

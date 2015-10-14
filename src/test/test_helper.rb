@@ -30,14 +30,7 @@ class ActiveSupport::TestCase
 
   def setup
     Rails.cache.clear if File.exists?(File.join(Rails.root, 'tmp', 'cache'))
-    Rails.application.routes.draw do
-      namespace :api, defaults: { format: 'json' } do
-        scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
-          match '/test' => 'test#test', via: [:get, :post]
-          match '/notify' => 'test#notify', via: [:post]
-        end
-      end
-    end
+    Rails.application.reload_routes!
   end
 
   # This will run after any test

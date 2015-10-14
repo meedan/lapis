@@ -3,6 +3,14 @@ require File.join(File.expand_path(File.dirname(__FILE__)), '..', 'test_helper')
 class BaseApiControllerTest < ActionController::TestCase
   def setup
     super
+    Rails.application.routes.draw do
+      namespace :api, defaults: { format: 'json' } do
+        scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
+          match '/test' => 'test#test', via: [:get, :post]
+          match '/notify' => 'test#notify', via: [:post]
+        end
+      end
+    end
     @controller = Api::V1::TestController.new
   end
 
