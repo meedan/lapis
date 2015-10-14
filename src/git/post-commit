@@ -10,12 +10,12 @@ user=$(git config --global --get user.name)
 output=$(CODECLIMATE_REPO_TOKEN=%code_climate_token% bundle exec rake test:coverage)
 git checkout public/coverage
 rm -rf coverage
-output=$(echo $output | sed 's/.*\(Finished tests in [0-9.]\+s, [0-9.]\+ tests\/s, [0-9.]\+ assertions\/s\.\).*[^0-9]\([0-9]\+ tests, .*\)/\1 *\2/g' | sed 's/Finished tests/executed tests/g')
+output=$(echo $output | sed 's/.*[^0-9]\+\([0-9]\+ runs, .*\)/\1/g')
 output=$(echo $output | sed 's/Coverage.*(\([0-9.]\+%\)).*/(\1 code coverage)*/g')
 output=$(echo $output | sed 's/Coverage = \([0-9.]\+%\).*/(\1 code coverage)*/g')
 rev=$(git log -1 --format=format:%h)
 ref=$(git rev-parse --abbrev-ref HEAD)
 cd - >/dev/null
-msg=$(echo "Build $rev of $repo/$ref by $user $output")
+msg=$(echo "Build $rev of $repo/$ref by $user: *$output")
 curl -X POST --data-urlencode "payload={\"channel\": \"$channel\", \"username\": \"Git CI\", \"text\": \"$msg\"}" $webhook_url
 exit 0

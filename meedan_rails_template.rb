@@ -119,4 +119,6 @@ after_bundle do
   run 'chmod +x .git/hooks/pre-commit'
   run '.git/hooks/pre-commit'
   rake 'test:coverage'
+  git add: 'public/coverage'
+  git commit: %Q{ -m 'Code coverage' }
 end
