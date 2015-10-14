@@ -4,7 +4,7 @@ This a [Ruby On Rails template](http://guides.rubyonrails.org/rails_application_
 
 Currently based on Ruby 2.0 and Rails 4.0.
 
-You can also use this README as a model for your README.
+This framework tries to implement the good practices listed [here](https://docs.google.com/document/d/1w-Cpa2K-aWHCrZoOJykkDoDoC2USP3uTzXM3hk1g_aU/edit#).
 
 ### Features
 
