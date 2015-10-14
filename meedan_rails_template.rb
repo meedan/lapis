@@ -9,8 +9,15 @@ require 'yaml'
 
 def generate_files(*paths)
   paths.each do |path|
+    method = (path =~ /\/$/).nil? ? 'file' : 'directory'
+    path = path.gsub(/\/$/, '')
     puts "Generating #{path}..."
-    file path, File.read(File.join(File.expand_path(File.dirname(__FILE__)), 'src', path)), force: true
+    source = File.join(File.expand_path(File.dirname(__FILE__)), 'src', path)
+    if method == 'file'
+      file path, File.read(source), force: true
+    elsif method == 'directory'
+      directory source, path, force: true
+    end
   end
 end
 
@@ -20,9 +27,7 @@ CONFIG = YAML.load_file(File.join(File.expand_path(File.dirname(__FILE__)), 'con
 
 # Gems
 
-gem 'rails', '4.0.9'
 gem 'sqlite3'
-gem 'jbuilder', '~> 1.2'
 gem 'webmock'
 gem 'mocha'
 gem 'simplecov', require: false, group: :test
@@ -35,14 +40,16 @@ gem 'logstasher'
 gem 'auto_localize', '0.1'
 gem 'thin'
 gem 'protected_attributes'
+gem 'swagger-docs'
+gem 'responders'
 
 # Test structure
 
-generate_files 'test/test_helper.rb', 'lib/sample_data.rb'
+generate_files 'test/test_helper.rb', 'lib/sample_data.rb', 'test/controllers/base_api_controller_test.rb', 'test/integration/api_version_integration_test.rb'
 
 # API key
 
-generate_files 'app/models/api_key.rb', 'test/models/api_key_test.rb'
+generate_files 'app/models/api_key.rb', 'test/models/api_key_test.rb', 'db/migrate/20150729232909_create_api_keys.rb'
 
 # Documentation
 
@@ -62,7 +69,7 @@ file '.gitignore', File.read(File.join(File.expand_path(File.dirname(__FILE__)),
 
 # Configuration
 
-generate_files 'config/initializers/config.rb', 'config/initializers/errbit.rb.example', 'config/initializers/secret_token.rb.example'
+generate_files 'config/initializers/config.rb', 'config/initializers/errbit.rb.example', 'config/initializers/secret_token.rb.example', 'config/config.yml.example'
 errbit = File.join(File.expand_path(File.dirname(__FILE__)), 'src/config/initializers/errbit.rb.example')
 contents = File.read(errbit)
 f = Tempfile.new('errbit')
@@ -70,7 +77,46 @@ f.write contents.gsub('%errbit_host%', CONFIG['errbit_host']).gsub('%errbit_port
 f.close
 file 'config/initializers/errbit.rb', File.read(f.path)
 file 'config/initializers/secret_token.rb', File.read(File.join(File.expand_path(File.dirname(__FILE__)), 'src/config/initializers/secret_token.rb.example')), force: true
+file 'config/config.yml', File.read(File.join(File.expand_path(File.dirname(__FILE__)), 'src/config/config.yml.example')), force: true
 
 # Routes
 
 generate_files 'config/routes.rb', 'lib/api_constraints.rb'
+
+# Lib
+
+generate_files 'lib/error_codes.rb'
+
+# Rake tasks
+
+generate_files 'lib/tasks/coverage.rake', 'lib/tasks/create_api_key.rake', 'lib/tasks/error_codes.rake', 'lib/tasks/licenses.rake', 'lib/tasks/seed.rake'
+
+# Controllers
+
+generate_files 'app/controllers/api/v1/base_api_controller.rb', 'app/controllers/application_controller.rb'
+
+# Swagger
+
+generate_files 'public/api/', 'config/initializers/swagger.rb'
+
+# Code Climate
+
+generate_files '.codeclimate.yml'
+
+# Webhook
+
+generate_files 'lib/meedan_webhook.rb'
+
+rake 'db:migrate'
+rake 'db:migrate', env: 'test'
+
+after_bundle do
+  git add: '.'
+  git commit: %Q{ -m 'Initial commit' }
+  git branch: 'develop'
+  git checkout: 'develop'
+  run 'chmod +x .git/hooks/post-commit'
+  run 'chmod +x .git/hooks/pre-commit'
+  run '.git/hooks/pre-commit'
+  rake 'test:coverage'
+end

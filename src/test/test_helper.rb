@@ -3,11 +3,22 @@ require 'codeclimate-test-reporter'
 CodeClimate::TestReporter.start
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
-require 'webmock/test_unit'
+require 'webmock'
 require 'mocha/test_unit'
+require 'sample_data'
 
-class ActionController::TestCase
-  include Devise::TestHelpers
+class Api::V1::TestController < Api::V1::BaseApiController
+  before_filter :verify_payload!, only: [:notify]
+  skip_before_filter :authenticate_from_token!, only: [:notify]
+
+  def test
+    @p = get_params
+    render_success
+  end
+
+  def notify
+    render_success 'success', @payload
+  end
 end
 
 class ActiveSupport::TestCase
@@ -19,6 +30,14 @@ class ActiveSupport::TestCase
 
   def setup
     Rails.cache.clear if File.exists?(File.join(Rails.root, 'tmp', 'cache'))
+    Rails.application.routes.draw do
+      namespace :api, defaults: { format: 'json' } do
+        scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
+          match '/test' => 'test#test', via: [:get, :post]
+          match '/notify' => 'test#notify', via: [:post]
+        end
+      end
+    end
   end
 
   # This will run after any test
@@ -26,5 +45,10 @@ class ActiveSupport::TestCase
   def teardown
     WebMock.reset!
     WebMock.allow_net_connect!
+  end
+
+  def authenticate_with_token(api_key = nil)
+    api_key ||= create_api_key
+    request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Token.encode_credentials(api_key.access_token)
   end
 end

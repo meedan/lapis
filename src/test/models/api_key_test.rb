@@ -17,4 +17,10 @@ class ApiKeyTest < ActiveSupport::TestCase
     k = create_api_key
     assert_kind_of String, k.reload.access_token
   end
+
+  test "should generate random data" do
+    assert_kind_of String, random_string
+    assert_kind_of Integer, random_number
+    assert_kind_of String, random_email
+  end
 end

@@ -6,7 +6,7 @@
 INKSCAPE = inkscape
 RAKE = bundle exec rake
 
-all: controllers_brief.png controllers_complete.png models_brief.png models_complete.png api.txt licenses.csv
+all: controllers_brief.png controllers_complete.png models_brief.png models_complete.png api.txt licenses.csv api-docs.json 
 
 controllers_brief.png: controllers_brief.svg
 	$(INKSCAPE) --export-png='controllers_brief.png' controllers_brief.svg
@@ -39,5 +39,8 @@ api.txt:
 licenses.csv:
 	$(RAKE) meedan:licenses > licenses.csv
 
+api-docs.json:
+	cd .. && $(RAKE) swagger:docs && cd - && ln -s ../public/api-docs.json
+
 clean:
-	rm -f *.png *.svg *.txt *.csv
+	rm -f *.png *.svg *.txt *.csv *.json
