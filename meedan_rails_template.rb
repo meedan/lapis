@@ -69,7 +69,7 @@ file '.gitignore', File.read(File.join(File.expand_path(File.dirname(__FILE__)),
 
 # Configuration
 
-generate_files 'config/initializers/config.rb', 'config/initializers/errbit.rb.example', 'config/initializers/secret_token.rb.example', 'config/config.yml.example'
+generate_files 'config/initializers/config.rb', 'config/initializers/errbit.rb.example', 'config/initializers/secret_token.rb.example', 'config/config.yml.example', 'config/database.yml.example'
 errbit = File.join(File.expand_path(File.dirname(__FILE__)), 'src/config/initializers/errbit.rb.example')
 contents = File.read(errbit)
 f = Tempfile.new('errbit')
