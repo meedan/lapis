@@ -1,10 +1,8 @@
-## API Base
+## Lapis
 
-This a [Ruby On Rails template](http://guides.rubyonrails.org/rails_application_templates.html) to be shared across Meedan's APIs.
+Lapis is a [Ruby On Rails template](http://guides.rubyonrails.org/rails_application_templates.html) to generate APIs that implement some [good practices](#) that [Meedan](http://meedan.com) follows.
 
-Currently based on Ruby 2.0 and Rails 4.0.
-
-This framework tries to implement the good practices listed [here](https://docs.google.com/document/d/1w-Cpa2K-aWHCrZoOJykkDoDoC2USP3uTzXM3hk1g_aU/edit#).
+Currently based on Ruby 2.0 and Rails 4.
 
 ### Features
 
@@ -17,7 +15,7 @@ This framework tries to implement the good practices listed [here](https://docs.
 ### How to use this template
 
 * Define settings in `config.yml`
-* Generate your application `rails new <application name> -m <path to this file>`
+* Generate your application `rails new <application name> -m <path to lapis_template.rb>`
 * For each model: create a method that creates an instance of this class at `lib/sample_data.rb`
 * Your controllers should inherit from `BaseApiController`... generate them by running `rails g controller Api::V1::<ControllerName>`
 * By default, all controller actions require a valid token... you can `skip_before_filter :authenticate_from_token!` in order to avoid that
@@ -27,4 +25,9 @@ This framework tries to implement the good practices listed [here](https://docs.
 
 ### Example
 
-Check [this example of an API built on top of this framework](https://github.com/meedan/api-base-example/).
+Check [this example of an API built on top of this framework](https://github.com/meedan/lapis-example/).
+
+### TODO
+
+* Add a rake task that generates a Dockerfile
+* Add a rake task that generates a mock gem

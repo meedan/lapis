@@ -1,4 +1,4 @@
-module Meedan
+module Lapis
   class Webhook
     def initialize(url, payload)
       @url = url

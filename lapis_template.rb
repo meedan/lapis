@@ -1,4 +1,3 @@
-# Meedan Rails Template
 # Usage: rails new <your application name> -m <path to this file>
 # Reference: http://guides.rubyonrails.org/rails_application_templates.html
 
@@ -113,7 +112,7 @@ generate_files '.codeclimate.yml'
 
 # Webhook
 
-generate_files 'lib/meedan_webhook.rb'
+generate_files 'lib/lapis_webhook.rb'
 
 rake 'db:migrate'
 rake 'db:migrate', env: 'test'
