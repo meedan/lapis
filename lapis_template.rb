@@ -6,16 +6,16 @@ require 'yaml'
 
 # Helper function
 
-def generate_files(*paths)
+def generate_files(paths = [], force = true)
   paths.each do |path|
     method = (path =~ /\/$/).nil? ? 'file' : 'directory'
     path = path.gsub(/\/$/, '')
     puts "Generating #{path}..."
     source = File.join(File.expand_path(File.dirname(__FILE__)), 'src', path)
     if method == 'file'
-      file path, File.read(source), force: true
+      file path, File.read(source), force: force
     elsif method == 'directory'
-      directory source, path, force: true
+      directory source, path, force: force
     end
   end
 end
@@ -44,15 +44,15 @@ gem 'responders'
 
 # Test structure
 
-generate_files 'test/test_helper.rb', 'lib/sample_data.rb', 'test/controllers/base_api_controller_test.rb', 'test/integration/api_version_integration_test.rb'
+generate_files ['test/test_helper.rb', 'lib/sample_data.rb', 'test/controllers/base_api_controller_test.rb', 'test/integration/api_version_integration_test.rb']
 
 # API key
 
-generate_files 'app/models/api_key.rb', 'test/models/api_key_test.rb', 'db/migrate/20150729232909_create_api_keys.rb'
+generate_files ['app/models/api_key.rb', 'test/models/api_key_test.rb', 'db/migrate/20150729232909_create_api_keys.rb']
 
 # Documentation
 
-generate_files 'doc/Makefile'
+generate_files ['doc/Makefile']
 
 # Git
 
@@ -68,7 +68,7 @@ file '.gitignore', File.read(File.join(File.expand_path(File.dirname(__FILE__)),
 
 # Configuration
 
-generate_files 'config/initializers/config.rb', 'config/initializers/errbit.rb.example', 'config/initializers/secret_token.rb.example', 'config/config.yml.example', 'config/database.yml.example'
+generate_files ['config/initializers/config.rb', 'config/initializers/errbit.rb.example', 'config/initializers/secret_token.rb.example', 'config/config.yml.example', 'config/database.yml.example']
 errbit = File.join(File.expand_path(File.dirname(__FILE__)), 'src/config/initializers/errbit.rb.example')
 contents = File.read(errbit)
 f = Tempfile.new('errbit')
@@ -88,38 +88,40 @@ environment 'config.generators do |g|
 
 # Routes
 
-generate_files 'config/routes.rb', 'lib/api_constraints.rb'
+generate_files ['config/routes.rb'], false
+generate_files ['lib/api_constraints.rb']
 
 # Lib
 
-generate_files 'lib/error_codes.rb'
+generate_files ['lib/error_codes.rb']
 
 # Rake tasks
 
-generate_files 'lib/tasks/coverage.rake', 'lib/tasks/create_api_key.rake', 'lib/tasks/error_codes.rake', 'lib/tasks/licenses.rake', 'lib/tasks/seed.rake'
+generate_files ['lib/tasks/coverage.rake', 'lib/tasks/create_api_key.rake', 'lib/tasks/error_codes.rake', 'lib/tasks/licenses.rake', 'lib/tasks/seed.rake']
 
 # Controllers
 
-generate_files 'app/controllers/api/v1/base_api_controller.rb', 'app/controllers/application_controller.rb'
+generate_files ['app/controllers/api/v1/base_api_controller.rb'], false
+generate_files ['app/controllers/application_controller.rb']
 
 # Swagger
 
-generate_files 'public/api/', 'config/initializers/swagger.rb'
+generate_files ['public/api/', 'config/initializers/swagger.rb']
 
 # Code Climate
 
-generate_files '.codeclimate.yml'
+generate_files ['.codeclimate.yml']
 
 # Webhook
 
-generate_files 'lib/lapis_webhook.rb'
+generate_files ['lib/lapis_webhook.rb']
 
 rake 'db:migrate'
 rake 'db:migrate', env: 'test'
 
 # Public
 
-generate_files 'public/index.html'
+generate_files ['public/index.html']
 
 after_bundle do
   git add: '.'
