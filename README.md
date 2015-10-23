@@ -21,7 +21,8 @@ This framework tries to implement the good practices listed [here](https://docs.
 * For each model: create a method that creates an instance of this class at `lib/sample_data.rb`
 * Your controllers should inherit from `BaseApiController`... generate them by running `rails g controller Api::V1::<ControllerName>`
 * By default, all controller actions require a valid token... you can `skip_before_filter :authenticate_from_token!` in order to avoid that
-* Document your API on files at `app/controllers/concerns/<controller name>_doc.rb`
+* Document your API on files at `app/controllers/concerns/<controller name>_doc.rb` (remember to `include YourControllerDoc` in your controller)
+* Add your routes to `config/routes.rb`
 * Generate the documentation: `cd doc && make`
 
 ### Example
