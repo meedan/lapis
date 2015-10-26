@@ -91,7 +91,7 @@ initializer 'info.rb', <<-CODE
     title: '#{CONFIG['title']}',
     description: '#{CONFIG['description']}',
     author: '#{CONFIG['author']}',
-    author_url: '#{CONFIG['author_url']}'
+    author_email: '#{CONFIG['author_email']}'
   }
 CODE
 
