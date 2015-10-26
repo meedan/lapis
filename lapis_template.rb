@@ -86,6 +86,15 @@ environment 'config.generators do |g|
                g.assets false
              end'
 
+initializer 'info.rb', <<-CODE
+  INFO = {
+    title: '#{CONFIG['title']}',
+    description: '#{CONFIG['description']}',
+    author: '#{CONFIG['author']}',
+    author_url: '#{CONFIG['author_url']}'
+  }
+CODE
+
 # Routes
 
 generate_files ['config/routes.rb'], false
