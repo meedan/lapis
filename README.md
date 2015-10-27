@@ -11,6 +11,7 @@ Currently based on Ruby 2.0 and Rails 4.
 * Authentication: webhooks and tokens
 * Integrations: Code Climate (code quality and coverage) and Errbit (exception handling)
 * API: Versioning and output control
+* Clients: Provides a rake task that generates a gem that can be used by clients to integrate and to test
 
 ### How to use this template
 
