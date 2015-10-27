@@ -106,7 +106,7 @@ generate_files ['lib/error_codes.rb']
 
 # Rake tasks
 
-generate_files ['lib/tasks/coverage.rake', 'lib/tasks/create_api_key.rake', 'lib/tasks/error_codes.rake', 'lib/tasks/licenses.rake', 'lib/tasks/seed.rake']
+generate_files ['lib/tasks/coverage.rake', 'lib/tasks/create_api_key.rake', 'lib/tasks/error_codes.rake', 'lib/tasks/licenses.rake', 'lib/tasks/seed.rake', 'lib/tasks/client_gem.rake']
 
 # Controllers
 

@@ -23,6 +23,7 @@ Currently based on Ruby 2.0 and Rails 4.
 * Add your routes to `config/routes.rb`
 * You can apply this template to an existing application by running `rake rails:template LOCATION=<path to lapis_template.rb>`
 * Generate the documentation: `cd doc && make`
+* Generate a Ruby gem that wraps this API to be used and tested by clients, by running: `rake lapis:build_client_gem`
 
 ### Example
 
@@ -31,4 +32,3 @@ Check [this example of an API built on top of this framework](https://github.com
 ### TODO
 
 * Add a rake task that generates a Dockerfile
-* Add a rake task that generates a mock gem
