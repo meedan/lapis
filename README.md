@@ -12,6 +12,7 @@ Currently based on Ruby 2.0 and Rails 4.
 * Integrations: Code Climate (code quality and coverage) and Errbit (exception handling)
 * API: Versioning and output control
 * Clients: Provides a rake task that generates a gem that can be used by clients to integrate and to test
+* Docker: Creates a Dockerfile ready to run the application
 
 ### How to use this template
 
