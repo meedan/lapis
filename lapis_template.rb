@@ -4,7 +4,7 @@
 require 'tempfile'
 require 'yaml'
 
-# Helper function
+# Helper functions
 
 def generate_files(paths = [], force = true)
   paths.each do |path|
@@ -18,6 +18,19 @@ def generate_files(paths = [], force = true)
       directory source, path, force: force
     end
   end
+end
+
+def generate_file_from_template(input, replacements = {}, output = nil)
+  output ||= input
+  template = File.join(File.expand_path(File.dirname(__FILE__)), 'src/' + input)
+  contents = File.read(template)
+  f = Tempfile.new('template')
+  replacements.each do |placeholder, replacement|
+    contents = contents.gsub(placeholder, replacement)
+  end
+  f.write contents
+  f.close
+  file output, File.read(f.path)
 end
 
 # Read configuration
@@ -41,6 +54,7 @@ gem 'thin'
 gem 'protected_attributes'
 gem 'swagger-docs'
 gem 'responders'
+gem 'unicorn'
 
 # Test structure
 
@@ -57,24 +71,17 @@ generate_files ['doc/Makefile']
 # Git
 
 git :init
-post_commit = File.join(File.expand_path(File.dirname(__FILE__)), 'src/git/post-commit')
-contents = File.read(post_commit)
-f = Tempfile.new('post-commit')
-f.write contents.gsub('%slack_webhook%', CONFIG['slack_webhook']).gsub('%slack_channel%', CONFIG['slack_channel']).gsub('%code_climate_token%', CONFIG['code_climate_token'])
-f.close
-file '.git/hooks/post-commit', File.read(f.path)
+
+generate_file_from_template 'git/post-commit', { '%slack_webhook%' => CONFIG['slack_webhook'], '%slack_channel%' => CONFIG['slack_channel'], '%code_climate_token%' => CONFIG['code_climate_token'] }, '.git/hooks/post-commit'
 file '.git/hooks/pre-commit', File.read(File.join(File.expand_path(File.dirname(__FILE__)), 'src/git/pre-commit'))
 file '.gitignore', File.read(File.join(File.expand_path(File.dirname(__FILE__)), 'src/git/ignore')), force: true
 
 # Configuration
 
 generate_files ['config/initializers/config.rb', 'config/initializers/errbit.rb.example', 'config/initializers/secret_token.rb.example', 'config/config.yml.example', 'config/database.yml.example']
-errbit = File.join(File.expand_path(File.dirname(__FILE__)), 'src/config/initializers/errbit.rb.example')
-contents = File.read(errbit)
-f = Tempfile.new('errbit')
-f.write contents.gsub('%errbit_host%', CONFIG['errbit_host']).gsub('%errbit_port%', CONFIG['errbit_port']).gsub('%errbit_token%', CONFIG['errbit_token'])
-f.close
-file 'config/initializers/errbit.rb', File.read(f.path)
+
+generate_file_from_template 'config/initializers/errbit.rb.example', { '%errbit_host%' => CONFIG['errbit_host'], '%errbit_port%' => CONFIG['errbit_port'], '%errbit_token%' => CONFIG['errbit_token'] }, 'config/initializers/errbit.rb'
+
 file 'config/initializers/secret_token.rb', File.read(File.join(File.expand_path(File.dirname(__FILE__)), 'src/config/initializers/secret_token.rb.example')), force: true
 file 'config/config.yml', File.read(File.join(File.expand_path(File.dirname(__FILE__)), 'src/config/config.yml.example')), force: true
 
@@ -125,29 +132,34 @@ generate_files ['.codeclimate.yml']
 
 generate_files ['lib/lapis_webhook.rb']
 
-rake 'db:migrate'
-rake 'db:migrate', env: 'test'
-
 # Public
 
 generate_files ['public/index.html']
 
+# Docker
+
+generate_file_from_template 'docker/Dockerfile', { '%author%' => CONFIG['author'], '%author_email%' => CONFIG['author_email'] }
+generate_file_from_template 'docker/run.sh', { '%app_name%' => app_name }
+generate_file_from_template 'docker/shell.sh', { '%app_name%' => app_name }
+generate_files ['docker/nginx.conf', 'docker/Procfile']
+run 'chmod +x docker/*.sh 2>/dev/null'
+
 # License
 
-license = File.join(File.expand_path(File.dirname(__FILE__)), 'src/LICENSE.txt')
-contents = File.read(license)
-f = Tempfile.new('license')
-f.write contents.gsub('%YEAR%', Time.now.year.to_s).gsub('%NAME%', CONFIG['author'])
-f.close
-file 'LICENSE.txt', File.read(f.path)
+generate_file_from_template 'LICENSE.txt', { '%YEAR%' => Time.now.year.to_s, '%NAME%' => CONFIG['author'] }
+
+# After bundle
 
 after_bundle do
+  rake 'db:migrate'
+  rake 'db:migrate', env: 'test'
   git add: '.'
   git commit: %Q{ -m 'Initial commit' }
   git branch: 'develop'
   git checkout: 'develop'
   run 'chmod +x .git/hooks/post-commit'
   run 'chmod +x .git/hooks/pre-commit'
+  run 'chmod +x docker/*.sh'
   run '.git/hooks/pre-commit'
   rake 'test:coverage'
   git add: 'public/coverage'

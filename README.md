@@ -25,11 +25,9 @@ Currently based on Ruby 2.0 and Rails 4.
 * You can apply this template to an existing application by running `rake rails:template LOCATION=<path to lapis_template.rb>`
 * Generate the documentation: `cd doc && make`
 * Generate a Ruby gem that wraps this API to be used and tested by clients, by running: `rake lapis:build_client_gem`
+* You can run the application right away on Docker by running  `./docker/run.sh` (you may need to update Dockerfile to fit your own needs)
+* You can enter a running container by executing `./docker/shell.sh`
 
 ### Example
 
 Check [this example of an API built on top of this framework](https://github.com/meedan/lapis-example/).
-
-### TODO
-
-* Add a rake task that generates a Dockerfile
