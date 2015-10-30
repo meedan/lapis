@@ -6,7 +6,7 @@ Currently based on Ruby 2.0 and Rails 4.
 
 ### Features
 
-* Documentation: licenses, API endpoints, Swagger, diagrams (models and controllers)
+* Documentation: license, licenses of dependencies, API endpoints, Swagger, diagrams (models and controllers)
 * Tests: Basic testing framework that notifies Slack
 * Authentication: webhooks and tokens
 * Integrations: Code Climate (code quality and coverage) and Errbit (exception handling)

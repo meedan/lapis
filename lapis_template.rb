@@ -132,6 +132,15 @@ rake 'db:migrate', env: 'test'
 
 generate_files ['public/index.html']
 
+# License
+
+license = File.join(File.expand_path(File.dirname(__FILE__)), 'src/LICENSE.txt')
+contents = File.read(license)
+f = Tempfile.new('license')
+f.write contents.gsub('%YEAR%', Time.now.year.to_s).gsub('%NAME%', CONFIG['author'])
+f.close
+file 'LICENSE.txt', File.read(f.path)
+
 after_bundle do
   git add: '.'
   git commit: %Q{ -m 'Initial commit' }
