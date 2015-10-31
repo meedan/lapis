@@ -2,7 +2,8 @@
 FROM seapy/rails-nginx-unicorn-pro:v1.0-ruby2.2.0-nginx1.6.0
 MAINTAINER %author%(%author_email%)
 
-# Add here your preinstall lib (e.g. imagemagick, mysql lib, pg lib, ssh config)
+# Add here other packages you need to install
+RUN apt-get install vim -y
 
 # Nginx config
 ADD docker/nginx.conf /etc/nginx/sites-enabled/default
