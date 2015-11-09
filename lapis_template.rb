@@ -56,6 +56,8 @@ gem 'swagger-docs'
 gem 'responders'
 gem 'unicorn'
 
+gsub_file 'Gemfile', "'debugger'", "'byebug'"
+
 # Test structure
 
 generate_files ['test/test_helper.rb', 'lib/sample_data.rb', 'test/controllers/base_api_controller_test.rb', 'test/integration/api_version_integration_test.rb']
