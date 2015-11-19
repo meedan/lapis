@@ -64,6 +64,8 @@ namespace :lapis do
 
        api[:operations].each do |op|
 
+         next if op[:response_messages].first[:responseModel].nil?
+
          apicall = "#{op[:method].upcase} /#{api[:path]}"
          method = "#{op[:method]}_#{path}"
          request_methods_sigs << "#{method} (`#{apicall}`)"
