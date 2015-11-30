@@ -1,6 +1,6 @@
 ## Lapis
 
-Lapis is a [Ruby On Rails template](http://guides.rubyonrails.org/rails_application_templates.html) to generate APIs that implement some [good practices](#) that [Meedan](http://meedan.com) follows.
+Lapis is a [Ruby On Rails template](http://guides.rubyonrails.org/rails_application_templates.html) to generate APIs that implement some good practices (to be published) that [Meedan](http://meedan.com) follows.
 
 Currently based on Ruby 2.0 and Rails 4.
 
