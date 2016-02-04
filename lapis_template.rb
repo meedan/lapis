@@ -44,7 +44,7 @@ gem 'webmock'
 gem 'mocha'
 gem 'simplecov', require: false, group: :test
 gem 'railroady'
-gem 'airbrake'
+gem 'airbrake', '4.3.3'
 gem 'codeclimate-test-reporter', group: :test, require: nil
 gem 'awesome_print', require: false, group: :development
 gem 'gem-licenses'
@@ -60,11 +60,11 @@ gsub_file 'Gemfile', "'debugger'", "'byebug'"
 
 # Test structure
 
-generate_files ['test/test_helper.rb', 'lib/sample_data.rb', 'test/controllers/base_api_controller_test.rb', 'test/integration/api_version_integration_test.rb']
+generate_files ['test/test_helper.rb', 'lib/sample_data.rb', 'test/controllers/base_api_controller_test.rb', 'test/integration/api_version_integration_test.rb', 'test/models/lapis_webhook_test.rb']
 
 # API key
 
-generate_files ['app/models/api_key.rb', 'test/models/api_key_test.rb', 'db/migrate/20150729232909_create_api_keys.rb']
+generate_files ['app/models/api_key.rb', 'test/models/api_key_test.rb', 'db/migrate/20150729232909_create_api_keys.rb', 'db/migrate/20160203234652_add_application_to_api_keys.rb']
 
 # Documentation
 
