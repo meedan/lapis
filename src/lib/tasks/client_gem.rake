@@ -196,7 +196,7 @@ module #{gem_camel_name}
       end
 
       unless token.blank?
-        request['Authorization'] = 'Token token="' + token.to_s + '"'
+        request['#{CONFIG['authorization_header'] || 'X-Token'}'] = token.to_s
       end
 
       http = Net::HTTP.new(uri.hostname, uri.port)

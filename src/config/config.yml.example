@@ -1,5 +1,6 @@
 development: &default
   secret_token: somethingsecret
+  authorization_header: 'X-Lapis-Token'
 
 test:
   <<: *default
