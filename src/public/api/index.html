@@ -40,7 +40,7 @@
     $('#input_apiKey').change(function() {
       var key = $('#input_apiKey')[0].value;
       if (key && key.trim() != "") {
-        window.authorizations.add('key', new ApiKeyAuthorization('X-Lapis-Token', key);
+        window.authorizations.add('key', new ApiKeyAuthorization('X-Lapis-Token', key));
       }
     })
     window.swaggerUi.load();
