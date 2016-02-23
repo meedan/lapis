@@ -60,6 +60,8 @@ namespace :lapis do
     docs.each do |doc|
      doc[:apis].each do |api|
 
+       api[:path].gsub!(/^\//, '')
+
        path = api[:path].gsub(/^api\//, '').gsub('/', '_')
 
        api[:operations].each do |op|
