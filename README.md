@@ -21,7 +21,7 @@ Currently based on Ruby 2.0 and Rails 4.
 * For each model: create a method that creates an instance of this class at `lib/sample_data.rb`
 * Your controllers should inherit from `BaseApiController`... generate them by running `rails g controller Api::V1::<ControllerName>`
 * By default, all controller actions require a valid token... you can `skip_before_filter :authenticate_from_token!` in order to avoid that
-* Document your API on files at `app/controllers/concerns/<controller name>_doc.rb` (remember to `include YourControllerDoc` in your controller)
+* Document your API on files at `app/controllers/concerns/<controller name>_doc.rb` (remember to `include YourControllerDoc` in your controller). When documenting the possible inputs, you can use 'test' as the token.
 * Add your routes to `config/routes.rb`
 * You can apply this template to an existing application by running `rake rails:template LOCATION=<path to lapis_template.rb>`
 * Generate the documentation: `cd doc && make`
