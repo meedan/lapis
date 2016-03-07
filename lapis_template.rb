@@ -26,7 +26,7 @@ def generate_file_from_template(input, replacements = {}, output = nil)
   contents = File.read(template)
   f = Tempfile.new('template')
   replacements.each do |placeholder, replacement|
-    contents = contents.gsub(placeholder, replacement)
+    contents = contents.gsub(placeholder, replacement.nil? ? '' : replacement)
   end
   f.write contents
   f.close
@@ -115,7 +115,7 @@ generate_files ['lib/error_codes.rb']
 
 # Rake tasks
 
-generate_files ['lib/tasks/coverage.rake', 'lib/tasks/create_api_key.rake', 'lib/tasks/error_codes.rake', 'lib/tasks/licenses.rake', 'lib/tasks/seed.rake', 'lib/tasks/client_gem.rake']
+generate_files ['lib/tasks/coverage.rake', 'lib/tasks/create_api_key.rake', 'lib/tasks/error_codes.rake', 'lib/tasks/licenses.rake', 'lib/tasks/seed.rake', 'lib/tasks/client_gem.rake', 'lib/tasks/client_php.rake', 'lib/tasks/clients/php/LapisClient.php', 'lib/tasks/clients/php/LapisClientTest.php']
 
 # Controllers
 
