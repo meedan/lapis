@@ -10,8 +10,8 @@ class ApiKeyTest < ActiveSupport::TestCase
   test "should generate expiration date" do
     t = Time.parse('2015-01-01 09:00:00')
     Time.stubs(:now).returns(t)
-    Time.unstub(:now)
     k = create_api_key
+    Time.unstub(:now)
     assert_equal Time.parse('2015-01-31 09:00:00'), k.reload.expire_at
   end
 
