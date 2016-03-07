@@ -3,6 +3,7 @@ namespace :lapis do
     task ruby: :environment do
       # Work with test environment
       ActiveRecord::Base.establish_connection('test')
+      ApiKey.where(access_token: 'test').destroy_all
       api_key = ApiKey.create!
       api_key.access_token = 'test'
       api_key.save!
@@ -27,7 +28,7 @@ namespace :lapis do
       FileUtils.rm_rf(gem_snake_name)
 
       # Create new gem
-      system "bundle gem #{gem_snake_name}"
+      system "bundle gem #{gem_snake_name} --mit"
 
       # Update version number
       content = File.read(version_file).gsub(current_version, new_version)
