@@ -25,7 +25,7 @@ Currently based on Ruby 2.0 and Rails 4.
 * Add your routes to `config/routes.rb`
 * You can apply this template to an existing application by running `rake rails:template LOCATION=<path to lapis_template.rb>`
 * Generate the documentation: `cd doc && make`
-* Generate a Ruby gem that wraps this API to be used and tested by clients, by running: `rake lapis:build_client_gem`
+* Generate a Ruby gem that wraps this API to be used and tested by clients, by running: `rake lapis:client:ruby`
 * You can run the application right away on Docker by running  `./docker/run.sh` (you may need to update Dockerfile to fit your own needs)
 * You can enter a running container by executing `./docker/shell.sh`
 
