@@ -106,7 +106,8 @@ CODE
 
 # Routes
 
-generate_files ['config/routes.rb'], false
+force = ENV['LOCATION'].blank? ? true : false
+generate_files ['config/routes.rb'], force
 generate_files ['lib/api_constraints.rb']
 
 # Lib
