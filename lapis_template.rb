@@ -156,6 +156,8 @@ generate_file_from_template 'LICENSE.txt', { '%YEAR%' => Time.now.year.to_s, '%N
 after_bundle do
   rake 'db:migrate'
   rake 'db:migrate', env: 'test'
+  run 'rm -rf app/assets && mkdir tmp 2>/dev/null'
+  run 'touch tmp/.gitkeep'
   git add: '.'
   git commit: %Q{ -m 'Initial commit' }
   git branch: 'develop'
@@ -167,5 +169,5 @@ after_bundle do
   rake 'test:coverage'
   git add: 'public/coverage'
   git commit: %Q{ -m 'Code coverage' }
-  run 'spring stop'
+  run 'spring stop > /dev/null'
 end
