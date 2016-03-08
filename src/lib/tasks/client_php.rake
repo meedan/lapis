@@ -52,6 +52,7 @@ namespace :lapis do
       },
       "autoload": \{
           "psr-4": \{
+              "Meedan\\\\Lapis\\\\": "src",
               "#{vendor_name_camel}\\\\#{client_name_camel}\\\\": "src"
           \}
       \}
@@ -221,8 +222,6 @@ namespace :lapis do
       client = %{<?php
 namespace #{vendor_name_camel}\\#{client_name_camel};
 
-require 'LapisClient.php';
-
 class #{client_name_camel} extends \\Meedan\\Lapis\\LapisClient \{
 
   function __construct($config = []) \{
@@ -238,19 +237,10 @@ class #{client_name_camel} extends \\Meedan\\Lapis\\LapisClient \{
 
       # phpunit.xml
       phpunit = %{<?xml version="1.0" encoding="UTF-8"?>
-  <phpunit backupGlobals="false"
-           backupStaticAttributes="false"
-           bootstrap="vendor/autoload.php"
-           colors="true"
-           convertErrorsToExceptions="true"
-           convertNoticesToExceptions="true"
-           convertWarningsToExceptions="true"
-           processIsolation="false"
-           stopOnFailure="false"
-           syntaxCheck="false">
+  <phpunit bootstrap="vendor/autoload.php" colors="true">
       <testsuites>
           <testsuite name="#{client_name_camel} Test Suite">
-              <directory suffix=".php">./tests/</directory>
+              <directory suffix=".php">tests/</directory>
           </testsuite>
       </testsuites>
   </phpunit>}
