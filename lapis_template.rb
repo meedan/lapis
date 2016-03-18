@@ -69,6 +69,8 @@ generate_files ['app/models/api_key.rb', 'test/models/api_key_test.rb', 'db/migr
 # Documentation
 
 generate_files ['doc/Makefile']
+generate_file_from_template 'README.md', { '%title%' => CONFIG['title'], '%description%' => CONFIG['description'],
+                                           '%author%' => CONFIG['author'], '%author_email%' => CONFIG['author_email'] }
 
 # Git
 
@@ -116,7 +118,7 @@ generate_files ['lib/error_codes.rb']
 
 # Rake tasks
 
-generate_files ['lib/tasks/coverage.rake', 'lib/tasks/create_api_key.rake', 'lib/tasks/error_codes.rake', 'lib/tasks/licenses.rake', 'lib/tasks/seed.rake', 'lib/tasks/client_gem.rake', 'lib/tasks/client_php.rake', 'lib/tasks/clients/php/LapisClient.php', 'lib/tasks/clients/php/LapisClientTest.php']
+generate_files ['lib/tasks/coverage.rake', 'lib/tasks/create_api_key.rake', 'lib/tasks/error_codes.rake', 'lib/tasks/licenses.rake', 'lib/tasks/seed.rake', 'lib/tasks/client_gem.rake', 'lib/tasks/client_php.rake', 'lib/tasks/clients/php/LapisClient.php', 'lib/tasks/clients/php/LapisClientTest.php', 'lib/tasks/docker.rake', 'lib/tasks/docs.rake']
 
 # Controllers
 
@@ -156,7 +158,7 @@ generate_file_from_template 'LICENSE.txt', { '%YEAR%' => Time.now.year.to_s, '%N
 after_bundle do
   rake 'db:migrate'
   rake 'db:migrate', env: 'test'
-  run 'rm -rf app/assets && mkdir tmp 2>/dev/null'
+  run 'rm -rf app/assets README.rdoc && mkdir tmp 2>/dev/null'
   run 'touch tmp/.gitkeep'
   git add: '.'
   git commit: %Q{ -m 'Initial commit' }
