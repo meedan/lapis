@@ -60,7 +60,8 @@ gsub_file 'Gemfile', "'debugger'", "'byebug'"
 
 # Test structure
 
-generate_files ['test/test_helper.rb', 'lib/sample_data.rb', 'test/controllers/base_api_controller_test.rb', 'test/integration/api_version_integration_test.rb', 'test/models/lapis_webhook_test.rb']
+generate_files ['test/test_helper.rb', 'test/controllers/base_api_controller_test.rb', 'test/integration/api_version_integration_test.rb', 'test/models/lapis_webhook_test.rb']
+generate_files ['lib/sample_data.rb'], false
 
 # API key
 
@@ -82,7 +83,8 @@ file '.gitignore', File.read(File.join(File.expand_path(File.dirname(__FILE__)),
 
 # Configuration
 
-generate_files ['config/initializers/config.rb', 'config/initializers/errbit.rb.example', 'config/initializers/secret_token.rb.example', 'config/config.yml.example', 'config/database.yml.example']
+generate_files ['config/initializers/config.rb', 'config/initializers/errbit.rb.example', 'config/initializers/secret_token.rb.example', 'config/database.yml.example']
+generate_files ['config/config.yml.example'], false
 
 generate_file_from_template 'config/initializers/errbit.rb.example', { '%errbit_host%' => CONFIG['errbit_host'], '%errbit_port%' => CONFIG['errbit_port'], '%errbit_token%' => CONFIG['errbit_token'] }, 'config/initializers/errbit.rb'
 
