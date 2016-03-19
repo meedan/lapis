@@ -10,7 +10,7 @@ docker build -t lapis/%app_name% .
 
 # Run
 secret=$(cat /dev/urandom | tr -dc 'a-zA-Z0-9' | fold -w 32 | head -n 1)
-docker run -d -p 80:80 --name %app_name% -e SECRET_KEY_BASE=$secret lapis/%app_name%
+docker run -d -p 3000:80 --name %app_name% -e SECRET_KEY_BASE=$secret lapis/%app_name%
 
 echo
 docker ps | grep '%app_name%'

@@ -11,11 +11,11 @@
 * Run `bundle exec rake db:migrate`
 * Create an API key: `bundle exec rake lapis:api_keys:create`
 * Start the server: `rails s`
-* Go to http://localhost:3000/api and use the API key you created
+* Go to [http://localhost:3000/api](http://localhost:3000/api) and use the API key you created
 
 #### Docker-based
 
-* You can also start the application on Docker by running `rake lapis:docker:run` (it will run on port 80 and your local hostname) - you first need to create an API key after entering the container (`lapis:docker:shell`) before using the web interface
+* You can also start the application on Docker by running `rake lapis:docker:run` (it will run on port 3000 and your local hostname) - you first need to create an API key after entering the container (`lapis:docker:shell`) before using the web interface
 
 ### Integration
 
