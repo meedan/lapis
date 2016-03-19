@@ -185,7 +185,7 @@ namespace :lapis do
 
               mock_method = "mock_#{path}_returns_#{r[:message].parameterize.gsub('-', '_')}"
               test_method = "test_#{path}_returns_#{r[:message].parameterize.gsub('-', '_')}"
-              mock_args = example[:query].nil? ? "''" : example[:query].collect{ |k, v| "#{v.inspect}" }.join(', ')
+              mock_args = example[:query].nil? ? "''" : example[:query].collect{ |k, v| v.nil? ? "''" : "#{v.inspect}" }.join(', ')
               token = example[:headers].nil? ? '' : example[:headers][CONFIG['authorization_header'] || 'X-Token']
 
               mock_methods_sigs << "#{mock_method}()"
@@ -202,15 +202,15 @@ namespace :lapis do
 
               mock_methods << %{
   public static function #{mock_method}() \{
-    $c = new LangidClient(['token_value' => '#{token}', 'client' => self::createMockClient(
+    $c = new #{client_name_camel}(['token_value' => '#{token}', 'client' => self::createMockClient(
       #{r[:code]}, json_decode(#{json.inspect}, true)
     )]);
-    return $c->get_languages_classify(#{mock_args});
+    return $c->#{method_name}(#{mock_args});
   \}}
               test_assertions = response.nil? ? '' : recursive_assert(response, '$res')
               test_methods << %{
   public function #{test_method}() \{
-    $res = LangidClient::#{mock_method}();
+    $res = #{client_name_camel}::#{mock_method}();
     #{test_assertions}
   \}}
             end
