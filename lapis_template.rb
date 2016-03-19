@@ -120,7 +120,7 @@ generate_files ['lib/error_codes.rb']
 
 # Rake tasks
 
-generate_files ['lib/tasks/coverage.rake', 'lib/tasks/create_api_key.rake', 'lib/tasks/error_codes.rake', 'lib/tasks/licenses.rake', 'lib/tasks/seed.rake', 'lib/tasks/client_gem.rake', 'lib/tasks/client_php.rake', 'lib/tasks/clients/php/LapisClient.php', 'lib/tasks/clients/php/LapisClientTest.php', 'lib/tasks/docker.rake', 'lib/tasks/docs.rake']
+generate_files ['lib/tasks/coverage.rake', 'lib/tasks/create_api_key.rake', 'lib/tasks/error_codes.rake', 'lib/tasks/licenses.rake', 'lib/tasks/seed.rake', 'lib/tasks/client_gem.rake', 'lib/tasks/client_php.rake', 'lib/tasks/clients/php/LapisClient.php', 'lib/tasks/clients/php/LapisClientTest.php', 'lib/tasks/docker.rake', 'lib/tasks/docs.rake', 'lib/tasks/swagger_markdown.rake']
 
 # Controllers
 
