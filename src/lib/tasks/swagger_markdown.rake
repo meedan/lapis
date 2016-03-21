@@ -37,6 +37,7 @@ namespace :swagger do
             output.puts("**Parameters**")
             output.puts
 
+            op[:parameters] ||= []
             op[:parameters].each do |p|
               required = p[:required] ? ' _(required)_' : ''
               output.puts("* `#{p[:name]}`: #{p[:description]}#{required}")
