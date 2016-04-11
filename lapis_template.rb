@@ -72,7 +72,6 @@ generate_files ['app/models/api_key.rb', 'test/models/api_key_test.rb', 'db/migr
 generate_files ['doc/Makefile']
 generate_file_from_template 'README.md', { '%title%' => CONFIG['title'], '%description%' => CONFIG['description'],
                                            '%author%' => CONFIG['author'], '%author_email%' => CONFIG['author_email'] }
-
 # Git
 
 git :init
@@ -83,7 +82,7 @@ file '.gitignore', File.read(File.join(File.expand_path(File.dirname(__FILE__)),
 
 # Configuration
 
-generate_files ['config/initializers/config.rb', 'config/initializers/errbit.rb.example', 'config/initializers/secret_token.rb.example', 'config/database.yml.example']
+generate_files ['config/initializers/config.rb', 'config/initializers/errbit.rb.example', 'config/initializers/secret_token.rb.example', 'config/database.yml.example', 'config/environments/production.rb']
 generate_files ['config/config.yml.example'], false
 
 generate_file_from_template 'config/initializers/errbit.rb.example', { '%errbit_host%' => CONFIG['errbit_host'], '%errbit_port%' => CONFIG['errbit_port'], '%errbit_token%' => CONFIG['errbit_token'] }, 'config/initializers/errbit.rb'
