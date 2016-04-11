@@ -147,7 +147,7 @@ generate_files ['public/index.html']
 generate_file_from_template 'docker/Dockerfile', { '%author%' => CONFIG['author'], '%author_email%' => CONFIG['author_email'] }
 generate_file_from_template 'docker/run.sh', { '%app_name%' => app_name }
 generate_file_from_template 'docker/shell.sh', { '%app_name%' => app_name }
-generate_files ['docker/nginx.conf', 'docker/Procfile']
+generate_files ['docker/nginx.conf', 'docker/Procfile', 'docker/create-dev-key.rb']
 run 'chmod +x docker/*.sh 2>/dev/null'
 
 # License
