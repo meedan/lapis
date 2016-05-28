@@ -55,6 +55,7 @@ gem 'protected_attributes'
 gem 'swagger-docs', '0.1.9'
 gem 'responders'
 gem 'unicorn'
+gem 'htmlentities', require: false, group: :development
 
 gsub_file 'Gemfile', "'debugger'", "'byebug'"
 
@@ -85,7 +86,9 @@ file '.gitignore', File.read(File.join(File.expand_path(File.dirname(__FILE__)),
 generate_files ['config/initializers/config.rb', 'config/initializers/errbit.rb.example', 'config/initializers/secret_token.rb.example', 'config/database.yml.example', 'config/environments/production.rb']
 generate_files ['config/config.yml.example'], false
 
-generate_file_from_template 'config/initializers/errbit.rb.example', { '%errbit_host%' => CONFIG['errbit_host'], '%errbit_port%' => CONFIG['errbit_port'], '%errbit_token%' => CONFIG['errbit_token'] }, 'config/initializers/errbit.rb'
+if !CONFIG['errbit_host'].blank? && !CONFIG['errbit_port'].blank? && !CONFIG['errbit_token'].blank?
+  generate_file_from_template 'config/initializers/errbit.rb.example', { '%errbit_host%' => CONFIG['errbit_host'], '%errbit_port%' => CONFIG['errbit_port'], '%errbit_token%' => CONFIG['errbit_token'] }, 'config/initializers/errbit.rb'
+end
 
 file 'config/initializers/secret_token.rb', File.read(File.join(File.expand_path(File.dirname(__FILE__)), 'src/config/initializers/secret_token.rb.example')), force: true
 file 'config/config.yml', File.read(File.join(File.expand_path(File.dirname(__FILE__)), 'src/config/config.yml.example')), force: false

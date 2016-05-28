@@ -25,7 +25,15 @@
 
 ### Integration
 
-Other applications can communicate with this service (and test this communication) using the client library, which can be automatically generated.
+Other applications can communicate with this service (and test this communication) using the client library, which can be automatically generated. Other applications can also use functions exposed by this application in the client library. In order to do this, just add a tag `@expose` before the method definition, like this:
+
+```ruby
+  # Other comments come here
+  # @expose
+  def this_function_will_be_exposed(params)
+    # It's important that the exposed function can work standalonely
+  end
+```
 
 ### Rake tasks
 
