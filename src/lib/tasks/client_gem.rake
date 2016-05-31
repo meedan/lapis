@@ -36,18 +36,6 @@ namespace :lapis do
       f.puts(content)
       f.close
 
-      # Update spec (metadata and dependencies)
-      specfile = File.join(gem_snake_name, "#{gem_snake_name}.gemspec")
-      content = File.read(specfile)
-      content.gsub!(/spec\.authors.*\n/, "spec.authors = ['#{INFO[:author]}']\n")
-      content.gsub!(/spec\.email.*\n/, "spec.email = ['#{INFO[:author_email]}']\n")
-      content.gsub!(/spec\.summary.*\n/, "spec.summary = ['#{INFO[:description]} (Client)']\n")
-      content.gsub!(/spec\.description.*\n/, "spec.description = ['#{INFO[:description]} (Client)']\n")
-      content.gsub!(/^end$/, "  spec.add_development_dependency \"webmock\", \"~> 1.21.0\"\nend")
-      f = File.open(specfile, 'w+')
-      f.puts(content)
-      f.close
-
       # Update license
       license = File.join(gem_snake_name, 'LICENSE.txt')
       content = File.read(license)
@@ -128,6 +116,7 @@ namespace :lapis do
       require 'htmlentities'
       exposed_methods_signs = []
       exposed_methods_bodies = []
+      exposed_gems = []
       rdoc = RDoc::RDoc.new
       options = rdoc.load_options
       rdoc.options = options
@@ -139,10 +128,27 @@ namespace :lapis do
           tags = dump[5].parts.map(&:parts).flatten
           if tags.include?('@expose')
             exposed_methods_signs << dump[1]
-            exposed_methods_bodies << HTMLEntities.new.decode(m.markup_code.gsub(/<span class=\"ruby-comment\">.*<\/span>/, '').gsub(/<[^>]*>/, '').gsub("\n", "\n    ").gsub(/ def /, ' def self.'))
+            body = HTMLEntities.new.decode(m.markup_code.gsub(/<span class=\"ruby-comment\">.*<\/span>/, '').gsub(/<[^>]*>/, '').gsub("\n", "\n    ").gsub(/ def /, ' def self.'))
+            exposed_gems += body.scan(/\srequire ['"]([^'"]+)['"]/).flatten 
+            exposed_methods_bodies << body
           end
         end
       end
+
+      # Update spec (metadata and dependencies)
+      specfile = File.join(gem_snake_name, "#{gem_snake_name}.gemspec")
+      content = File.read(specfile)
+      content.gsub!(/spec\.authors.*\n/, "spec.authors = ['#{INFO[:author]}']\n")
+      content.gsub!(/spec\.email.*\n/, "spec.email = ['#{INFO[:author_email]}']\n")
+      content.gsub!(/spec\.summary.*\n/, "spec.summary = ['#{INFO[:description]} (Client)']\n")
+      content.gsub!(/spec\.description.*\n/, "spec.description = ['#{INFO[:description]} (Client)']\n")
+      content.gsub!(/^end$/, "  spec.add_development_dependency \"webmock\", \"~> 1.21.0\"\nend")
+      exposed_gems.each do |dep|
+        content.gsub!(/^end$/, "  spec.add_runtime_dependency \"#{dep}\"\nend")
+      end
+      f = File.open(specfile, 'w+')
+      f.puts(content)
+      f.close
 
       # Update README
       readme = %{
