@@ -47,7 +47,7 @@ gem 'railroady'
 gem 'airbrake', '4.3.3'
 gem 'codeclimate-test-reporter', group: :test, require: nil
 gem 'awesome_print', require: false, group: :development
-gem 'gem-licenses'
+gem 'gem-licenses', git: 'https://github.com/caiosba/gem-licenses.git', ref: 'bef186f'
 gem 'logstasher'
 gem 'auto_localize', '0.1'
 gem 'thin'
