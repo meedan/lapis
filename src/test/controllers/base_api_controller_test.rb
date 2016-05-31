@@ -8,6 +8,7 @@ class BaseApiControllerTest < ActionController::TestCase
         scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
           match '/test' => 'test#test', via: [:get, :post]
           match '/notify' => 'test#notify', via: [:post]
+          get 'version', to: 'base_api#version'
         end
       end
     end
@@ -87,5 +88,12 @@ class BaseApiControllerTest < ActionController::TestCase
     post :notify
     @request.env.delete('RAW_POST_DATA')
     assert_response 400
+  end
+
+  test "should get version" do
+    authenticate_with_token
+    @controller = Api::V1::BaseApiController.new
+    get :version
+    assert_response :success
   end
 end

@@ -83,7 +83,7 @@ file '.gitignore', File.read(File.join(File.expand_path(File.dirname(__FILE__)),
 
 # Configuration
 
-generate_files ['config/initializers/config.rb', 'config/initializers/errbit.rb.example', 'config/initializers/secret_token.rb.example', 'config/database.yml.example', 'config/environments/production.rb']
+generate_files ['config/initializers/config.rb', 'config/initializers/errbit.rb.example', 'config/initializers/secret_token.rb.example', 'config/database.yml.example', 'config/environments/production.rb', 'config/initializers/version.rb']
 generate_files ['config/config.yml.example'], false
 
 if !CONFIG['errbit_host'].blank? && !CONFIG['errbit_port'].blank? && !CONFIG['errbit_token'].blank?
@@ -127,7 +127,7 @@ generate_files ['lib/tasks/coverage.rake', 'lib/tasks/create_api_key.rake', 'lib
 # Controllers
 
 generate_files ['app/controllers/api/v1/base_api_controller.rb'], false
-generate_files ['app/controllers/application_controller.rb']
+generate_files ['app/controllers/application_controller.rb', 'app/controllers/concerns/base_doc.rb']
 
 # Swagger
 
@@ -162,6 +162,7 @@ generate_file_from_template 'LICENSE.txt', { '%YEAR%' => Time.now.year.to_s, '%N
 after_bundle do
   rake 'db:migrate'
   rake 'db:migrate', env: 'test'
+  rake 'swagger:docs'
   run 'rm -rf app/assets README.rdoc && mkdir tmp 2>/dev/null'
   run 'touch tmp/.gitkeep'
   git add: '.'
