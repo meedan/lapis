@@ -56,17 +56,27 @@ gem 'swagger-docs', '0.1.9'
 gem 'responders'
 gem 'unicorn'
 gem 'htmlentities', require: false, group: :development
+gem 'graphql'
+gem 'graphql-relay'
 
 gsub_file 'Gemfile', "'debugger'", "'byebug'"
 
+# Configuration
+
+application "config.autoload_paths << Rails.root.join('app', 'graph', 'types')"
+application "config.autoload_paths << Rails.root.join('app', 'graph', 'mutations')"
+
 # Test structure
 
-generate_files ['test/test_helper.rb', 'test/controllers/base_api_controller_test.rb', 'test/integration/api_version_integration_test.rb', 'test/models/lapis_webhook_test.rb']
+generate_files ['test/test_helper.rb', 'test/controllers/base_api_controller_test.rb', 'test/integration/api_version_integration_test.rb', 'test/models/lapis_webhook_test.rb', 'test/controllers/graphql_controller_test.rb']
 generate_files ['lib/sample_data.rb'], false
 
 # API key
 
 generate_files ['app/models/api_key.rb', 'test/models/api_key_test.rb', 'db/migrate/20150729232909_create_api_keys.rb', 'db/migrate/20160203234652_add_application_to_api_keys.rb']
+
+# GraphQL
+generate_files ['app/graph/']
 
 # Documentation
 
@@ -83,7 +93,7 @@ file '.gitignore', File.read(File.join(File.expand_path(File.dirname(__FILE__)),
 
 # Configuration
 
-generate_files ['config/initializers/config.rb', 'config/initializers/errbit.rb.example', 'config/initializers/secret_token.rb.example', 'config/database.yml.example', 'config/environments/production.rb', 'config/initializers/version.rb']
+generate_files ['config/initializers/config.rb', 'config/initializers/errbit.rb.example', 'config/initializers/secret_token.rb.example', 'config/database.yml.example', 'config/environments/production.rb', 'config/initializers/version.rb', 'config/initializers/relay_on_rails.rb']
 generate_files ['config/config.yml.example'], false
 
 if !CONFIG['errbit_host'].blank? && !CONFIG['errbit_port'].blank? && !CONFIG['errbit_token'].blank?
@@ -122,12 +132,12 @@ generate_files ['lib/error_codes.rb']
 
 # Rake tasks
 
-generate_files ['lib/tasks/coverage.rake', 'lib/tasks/create_api_key.rake', 'lib/tasks/error_codes.rake', 'lib/tasks/licenses.rake', 'lib/tasks/seed.rake', 'lib/tasks/client_gem.rake', 'lib/tasks/client_php.rake', 'lib/tasks/clients/php/LapisClient.php', 'lib/tasks/clients/php/LapisClientTest.php', 'lib/tasks/docker.rake', 'lib/tasks/docs.rake', 'lib/tasks/swagger_markdown.rake']
+generate_files ['lib/tasks/coverage.rake', 'lib/tasks/create_api_key.rake', 'lib/tasks/error_codes.rake', 'lib/tasks/licenses.rake', 'lib/tasks/seed.rake', 'lib/tasks/client_gem.rake', 'lib/tasks/client_php.rake', 'lib/tasks/clients/php/LapisClient.php', 'lib/tasks/clients/php/LapisClientTest.php', 'lib/tasks/docker.rake', 'lib/tasks/docs.rake', 'lib/tasks/swagger_markdown.rake', 'lib/tasks/graphql.rake']
 
 # Controllers
 
 generate_files ['app/controllers/api/v1/base_api_controller.rb'], false
-generate_files ['app/controllers/application_controller.rb', 'app/controllers/concerns/base_doc.rb']
+generate_files ['app/controllers/application_controller.rb', 'app/controllers/concerns/base_doc.rb', 'app/controllers/api/v1/graphql_controller.rb', 'app/controllers/concerns/graphql_doc.rb']
 
 # Swagger
 

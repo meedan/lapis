@@ -49,7 +49,14 @@ There are rake tasks for a few tasks (besides Rails' default ones). Run them thi
 * `lapis:docs`: Generate the documentation for this API, including models and controllers diagrams, Swagger, API endpoints, licenses, etc.
 * `lapis:docker:run`: Run the application in Docker
 * `lapis:docker:shell`: Enter the Docker container
+* `lapis:graphql:update_schema_json`: Update the GraphQL schema JSON
 * `swagger:docs:markdown`: Generate the documentation in markdown format
+
+### GraphQL
+
+There is a GraphQL interface that exposes the data model as a GraphQL schema. The GraphQL files should be under `app/graph`.
+
+You can update the schema file by running `rake lapis:graphql:update_schema_json`.
 
 ### Credits
 
