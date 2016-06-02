@@ -5,7 +5,7 @@ Rails.application.routes.draw do
     scope module: :v1, constraints: ApiConstraints.new(version: 1, default: true) do
       get 'version', to: 'base_api#version'
       scope '/graphql' do
-        post '/', to: 'graphql#create'
+        match '/' => 'graphql#create', via: [:post, :options]
       end
       # Write your routes here!
     end

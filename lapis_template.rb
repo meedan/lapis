@@ -65,6 +65,7 @@ gsub_file 'Gemfile', "'debugger'", "'byebug'"
 
 application "config.autoload_paths << Rails.root.join('app', 'graph', 'types')"
 application "config.autoload_paths << Rails.root.join('app', 'graph', 'mutations')"
+application "config.action_dispatch.default_headers.merge!({'Access-Control-Allow-Origin' => '*', 'Access-Control-Request-Method' => '*'})"
 
 # Test structure
 
