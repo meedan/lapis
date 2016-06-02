@@ -3,15 +3,18 @@ module Api
     class GraphqlController < Api::V1::BaseApiController
       include GraphqlDoc
       
-      skip_before_filter :authenticate_from_token!, if: proc { request.options? }
+      skip_before_filter :authenticate_from_token!, only: [:options]
       after_filter :set_access_headers
 
       def create
-        render(text: '') and return if request.options?
         query_string = params[:query]
         query_variables = params[:variables] || {}
         query = GraphQL::Query.new(RelayOnRailsSchema, query_string, variables: query_variables)
         render json: query.result
+      end
+
+      def options
+        render text: ''
       end
 
       private

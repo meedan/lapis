@@ -26,4 +26,9 @@ class GraphqlControllerTest < ActionController::TestCase
     post :create, query: "query Query { node(id: \"#{id}\") { id } }"
     assert_equal id, JSON.parse(@response.body)['data']['node']['id']
   end
+
+  test "should get options" do
+    process :options, 'OPTIONS'
+    assert_response :success
+  end
 end
